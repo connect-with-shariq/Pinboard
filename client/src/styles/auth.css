@@ -1,0 +1,33 @@
+/* Login / register: a paper card pinned on a cork board */
+.auth-page {
+  min-height: 100%; display: grid; place-items: center; padding: 56px 16px 24px; position: relative;
+  background-color: var(--cork);
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.09) 1px, transparent 1.5px),
+    radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1.5px);
+  background-size: 14px 14px, 21px 21px;
+  background-position: 0 0, 7px 9px;
+}
+.auth-page__back {
+  position: absolute; top: 18px; left: 20px; color: #fff; font-weight: 600; font-size: 14px;
+  background: rgba(0, 0, 0, 0.2); padding: 7px 12px; border-radius: 999px;
+}
+.auth-page__back:hover { background: rgba(0, 0, 0, 0.32); text-decoration: none; }
+
+.auth-card {
+  position: relative; width: min(400px, 100%);
+  background: var(--paper); padding: 36px 32px 28px; border-radius: 4px;
+  box-shadow: var(--shadow-lg); transform: rotate(-0.8deg);
+}
+.auth-card__pin {
+  position: absolute; top: -10px; left: 50%; width: 22px; height: 22px; margin-left: -11px;
+  border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a80, var(--pin) 60%);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.35);
+}
+.auth-card__brand { font-weight: 700; color: var(--ink-soft); font-size: 14px; }
+.auth-card__title { margin: 8px 0 4px; font-size: 40px; font-family: var(--font-hand); font-weight: 700; }
+.auth-card__subtitle { margin: 0 0 20px; color: var(--ink-soft); font-size: 14px; }
+.auth-card__footer { margin-top: 18px; text-align: center; font-size: 14px; color: var(--ink-soft); }
+.auth-card__footer a { font-weight: 600; }
+
+.auth-form { display: grid; gap: 14px; }

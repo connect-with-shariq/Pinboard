@@ -1,0 +1,96 @@
+/* ---------- Sticky note ---------- */
+.note {
+  color: var(--note-ink);
+  position: absolute; width: 240px; padding-bottom: 6px; border-radius: 3px;
+  box-shadow: var(--shadow-md); cursor: default; display: flex; flex-direction: column;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.note:hover { box-shadow: var(--shadow-lg); }
+.note--dragging { box-shadow: 0 26px 50px rgba(0, 0, 0, 0.35); transform: rotate(2deg) scale(1.02); transition: none; }
+.note--drop { outline: 3px dashed var(--primary); outline-offset: 3px; }
+
+.note__pin {
+  position: absolute; top: -7px; left: 50%; width: 14px; height: 14px; margin-left: -7px;
+  border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a80, #d32f2f 60%);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.35); pointer-events: none;
+}
+
+.note__head {
+  display: flex; align-items: center; gap: 6px; padding: 10px 8px 6px;
+  font-size: 12px; user-select: none; touch-action: none;
+}
+.note__head--draggable { cursor: grab; }
+.note--dragging .note__head { cursor: grabbing; }
+.note__author { color: var(--note-ink); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
+.note__time { color: rgba(0, 0, 0, 0.45); white-space: nowrap; }
+.note__actions { margin-left: auto; display: flex; gap: 1px; opacity: 0.45; transition: opacity 0.15s; }
+.note:hover .note__actions, .note:focus-within .note__actions { opacity: 1; }
+.note__actions button { border: 0; background: transparent; padding: 3px 5px; border-radius: 5px; font-size: 14px; }
+.note__actions button:hover { background: rgba(0, 0, 0, 0.1); }
+
+.note__text {
+  display: block; width: 100%; margin: 0; padding: 4px 12px 8px; border: 0; background: transparent;
+  resize: none; overflow: hidden; outline: none; font-family: var(--font-hand); font-size: 16px; line-height: 1.4;
+  white-space: pre-wrap; word-wrap: break-word;
+}
+.note__text::placeholder { color: rgba(0, 0, 0, 0.35); }
+.note__text--readonly { min-height: 24px; }
+
+.note__uploading { display: flex; align-items: center; gap: 6px; padding: 0 12px 6px; font-size: 12px; color: var(--ink-soft); }
+
+.note__foot { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 2px 8px 0; min-height: 22px; }
+.note__chip {
+  border: 0; background: rgba(0, 0, 0, 0.07); border-radius: 999px; padding: 3px 9px;
+  font-size: 12px; font-weight: 600;
+}
+.note__chip:hover { background: rgba(0, 0, 0, 0.14); }
+
+/* ---------- Media inside a note ---------- */
+.note-media { display: grid; gap: 6px; padding: 0 8px 8px; }
+.note-media__item { position: relative; border-radius: 4px; overflow: hidden; }
+.note-media__item img, .note-media__item video { display: block; width: 100%; max-height: 260px; object-fit: cover; background: #111; }
+.note-media__item audio { display: block; width: 100%; }
+.note-media__file {
+  display: block; padding: 8px 10px; background: rgba(255, 255, 255, 0.6); border-radius: 4px;
+  font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.note-media__remove {
+  position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border: 0; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 15px; line-height: 1;
+  opacity: 0; transition: opacity 0.15s;
+}
+.note-media__item:hover .note-media__remove { opacity: 1; }
+
+/* ---------- Colour picker ---------- */
+.color-picker { display: flex; gap: 4px; margin-right: auto; }
+.color-picker__dot {
+  width: 14px; height: 14px; padding: 0; border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.25); transition: transform 0.1s;
+}
+.color-picker__dot:hover { transform: scale(1.2); }
+.color-picker__dot--active { box-shadow: 0 0 0 2px var(--ink); }
+
+/* ---------- Comments ---------- */
+.comments { margin: 8px 8px 2px; background: rgba(255, 255, 255, 0.55); border-radius: 6px; padding: 8px; }
+.comments__list { display: grid; gap: 8px; max-height: 200px; overflow-y: auto; margin-bottom: 8px; }
+.comment { display: flex; gap: 6px; font-size: 13px; }
+.comment__body { min-width: 0; }
+.comment__meta { font-size: 11px; }
+.comment__text { word-wrap: break-word; white-space: pre-wrap; }
+.comments__form { display: flex; gap: 4px; }
+.comments__form input {
+  flex: 1; min-width: 0; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #fff; font-size: 13px;
+}
+.comments__form input:focus { outline: 2px solid var(--primary-soft); border-color: var(--primary); }
+
+/* Liked + "jump to this note" highlight */
+.note__chip--liked { background: rgba(229, 57, 53, 0.15); }
+a.note__author:hover { text-decoration: underline; }
+.note--highlight { animation: highlight 0.8s ease-in-out 3; }
+@keyframes highlight {
+  50% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.9), 0 0 0 10px var(--primary), var(--shadow-lg); }
+}
+.note__text { color: var(--note-ink); }
+.comments__form input { color: var(--note-ink); }
+.note .muted { color: rgba(0, 0, 0, 0.5); }

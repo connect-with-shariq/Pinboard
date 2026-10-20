@@ -1,0 +1,27 @@
+# Render Blueprint — creates the whole app from your GitHub repo in one click.
+# Render dashboard → New → Blueprint → pick this repo.
+services:
+  - type: web
+    name: pinboard
+    runtime: node
+    plan: free
+    region: singapore            # closest to India; change if you like
+    buildCommand: npm install --prefix server && npm install --prefix client --include=dev && npm run build --prefix client
+    startCommand: npm start --prefix server
+    healthCheckPath: /api/health
+    autoDeploy: true             # every push to GitHub redeploys the site
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: JWT_SECRET
+        generateValue: true      # Render makes a long random secret for you
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: MAX_UPLOAD_MB
+        value: "20"              # MongoDB Atlas free tier has 512 MB in total
+      - key: MONGO_URI
+        sync: false              # you paste your Atlas connection string in the dashboard
+      - key: CLIENT_URL
+        sync: false              # your site URL, e.g. https://pinboard-xxxx.onrender.com
